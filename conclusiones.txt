@@ -1,0 +1,161 @@
+# Conclusiones del Proyecto – Automatización E2E en DemoBlaze
+
+Este documento presenta los hallazgos, desafíos técnicos y aprendizajes obtenidos durante la implementación del flujo de compra 
+automatizado en DemoBlaze utilizando Serenity BDD con el patrón Screenplay.
+
+---
+
+## 1. Implementación exitosa del flujo E2E
+
+El flujo completo de compra fue automatizado satisfactoriamente, cubriendo todas las etapas del proceso:
+
+- Acceso al sitio web y navegación por el catálogo de productos
+- Selección de productos de diferentes categorías
+- Gestión del carrito de compras
+- Completado del formulario de información de compra
+- Confirmación de la transacción
+- Validación del mensaje de éxito
+
+La implementación mediante el patrón Screenplay permitió crear pruebas altamente legibles y centradas en las acciones del usuario, 
+facilitando el mantenimiento y la escalabilidad del código.
+
+---
+
+## 2. Desafíos técnicos y resoluciones
+
+Durante el desarrollo del proyecto se identificaron diversos problemas técnicos que fueron resueltos mediante ajustes de configuración 
+y actualización de componentes.
+
+### 2.1 Incompatibilidad de versión de Java
+
+**Problema identificado:**
+
+El proyecto presentaba errores durante la compilación y ejecución debido a incompatibilidades con la versión de Java instalada.
+
+**Análisis:**
+
+El entorno de desarrollo contaba con Java 20 instalado, una versión más reciente que la requerida. Aunque Serenity BDD 4.2.0 requiere 
+como mínimo Java 16, la versión óptima y recomendada para estabilidad es Java 17 (versión LTS - Long Term Support).
+
+**Solución implementada:**
+
+- Desinstalación de Java 20
+- Instalación de Java 17 (versión LTS recomendada)
+- Configuración correcta de la variable de entorno `JAVA_HOME` apuntando a JDK 17
+- Actualización del `Path` del sistema para eliminar referencias a versiones antiguas
+- Verificación mediante el comando `java -version` y `gradlew -version`
+
+Tras estos ajustes, el proyecto compiló y ejecutó exitosamente.
+
+### 2.2 Gradle detectando versión incorrecta de JDK
+
+**Problema identificado:**
+
+Después de instalar Java 17, Gradle continuaba reconociendo una versión diferente de Java.
+
+**Solución implementada:**
+
+- Corrección de la variable `JAVA_HOME`
+- Eliminación de rutas obsoletas del `Path`
+- Configuración adicional en `gradle.properties` (cuando fue necesario):
+
+```properties
+org.gradle.java.home=C:\\Program Files\\Java\\jdk-17.0.11
+```
+
+Con esta configuración, Gradle reconoció correctamente Java 17.
+
+### 2.3 Ejecución en modo headless no intencional
+
+**Problema identificado:**
+
+Las pruebas se ejecutaban correctamente pero Chrome no se visualizaba durante la ejecución.
+
+**Causa raíz:**
+
+El archivo `serenity.conf` contenía el argumento `--xheadless` que forzaba la ejecución sin interfaz gráfica:
+
+```
+args = [
+    "--xheadless",
+    "--remote-allow-origins=*"
+]
+```
+
+**Solución implementada:**
+
+Eliminación del argumento problemático, dejando la configuración como:
+
+```
+args = [
+    "--remote-allow-origins=*"
+]
+```
+
+Después de este cambio, el navegador se abrió correctamente durante las pruebas.
+
+---
+
+## 3. Ventajas del stack tecnológico seleccionado
+
+### Serenity BDD
+
+- Generación automática de reportes detallados con evidencias visuales
+- Capturas de pantalla automáticas en cada paso crítico
+- Trazabilidad completa de la ejecución
+- Integración nativa con Selenium WebDriver
+- Reportes orientados tanto a equipos técnicos como a stakeholders
+
+### Patrón Screenplay
+
+- Mayor legibilidad del código de prueba
+- Reutilización efectiva de componentes (Tasks, Interactions, Questions)
+- Separación clara de responsabilidades
+- Facilita el trabajo colaborativo en equipo
+- Reduce significativamente el esfuerzo de mantenimiento
+
+---
+
+## 4. Prácticas de calidad aplicadas
+
+- Uso de Java 17 como versión estable y compatible
+- Configuración optimizada del WebDriver mediante Serenity
+- Arquitectura modular basada en Screenplay (Tasks, Questions, Pages)
+- Generación de reportes en formato HTML optimizado
+- Parametrización de escenarios mediante Scenario Outline de Cucumber
+- Gestión de logs mediante Logback para troubleshooting eficiente
+
+---
+
+## 5. Resultados y aprendizajes
+
+A pesar de los desafíos iniciales relacionados con la compatibilidad de versiones entre Java, Serenity y Gradle, el proyecto alcanzó un
+estado de funcionamiento óptimo. La automatización ejecuta el flujo completo sin errores y genera reportes detallados de cada ejecución.
+
+Este proyecto demuestra que la combinación de Serenity BDD con el patrón Screenplay constituye una solución empresarial robusta para 
+pruebas automatizadas E2E, especialmente valiosa cuando se requiere:
+
+- Documentación automática de las pruebas
+- Evidencias detalladas para auditorías
+- Código mantenible y escalable
+- Integración con pipelines de CI/CD
+- Comunicación efectiva de resultados a diferentes audiencias
+
+El flujo de compra de DemoBlaze quedó completamente automatizado, proporcionando una base sólida para la expansión de la suite de pruebas.
+
+---
+
+
+## 6. Conclusión final
+
+El proyecto cumplió exitosamente con todos los objetivos planteados, aunque hubo que realizar investigación profunda sobre temas 
+relacionados con Java. Estos problemas me brindaron valor agregado a mis habilidades como QA y desarrollador, lo que se tradujo 
+en un aprendizaje valioso sobre configuración de entornos y dependencias.
+
+Puedo decir que las pruebas implementadas no solo validan la funcionalidad del sitio, sino que demuestran capacidad de troubleshooting,
+investigación autónoma y construcción de soluciones robustas con pruebas automatizadas utilizando Serenity BDD que aportan valor real 
+a equipos de desarrollo y QA.
+
+---
+
+**Documento elaborado como parte de la documentación técnica del proyecto de automatización E2E**

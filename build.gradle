@@ -1,0 +1,125 @@
+plugins {
+    id 'java'
+    id "net.serenity-bdd.serenity-gradle-plugin" version "4.1.14"
+}
+
+/**
+ * CONFIGURACIÓN DE REPORTES SERENITY
+ */
+serenity {
+    reports = ["single-page-html"]
+}
+
+/**
+ * CONFIGURACIÓN GENERAL DEL PROYECTO
+ */
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+/**
+ * REPOSITORIOS
+ */
+repositories {
+    mavenCentral()
+    maven {
+        url = "https://jitpack.io"
+    }
+    maven {
+        url = "https://plugins.gradle.org/m2/"
+    }
+}
+
+/**
+ * DEPENDENCIAS
+ */
+dependencies {
+
+    // -------------------------------
+    // JUNIT 4 + JUNIT VINTAGE (OBLIGATORIO PARA SERENITY)
+    // -------------------------------
+    testImplementation 'junit:junit:4.13.2'
+    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.10.0'
+
+    // -------------------------------
+    // SERENITY DEPENDENCIES
+    // -------------------------------
+    implementation 'net.serenity-bdd:serenity-core:4.2.0'
+    implementation 'net.serenity-bdd:serenity-junit:4.2.0'
+    implementation 'net.serenity-bdd:serenity-screenplay:4.2.0'
+    implementation 'net.serenity-bdd:serenity-screenplay-webdriver:4.2.0'
+    implementation 'net.serenity-bdd:serenity-cucumber:4.2.0'
+    implementation 'net.serenity-bdd:serenity-report-resources:4.2.0'
+
+    // -------------------------------
+    // CUCUMBER
+    // -------------------------------
+    testImplementation 'io.cucumber:cucumber-java:7.18.0'
+
+    // -------------------------------
+    // SELENIUM
+    // -------------------------------
+    testImplementation 'org.seleniumhq.selenium:selenium-java:4.27.0'
+
+    // -------------------------------
+    // ASSERTS Y LOGGING
+    // -------------------------------
+    testImplementation 'org.assertj:assertj-core:3.26.3'
+    testImplementation 'org.hamcrest:hamcrest:3.0'
+    testImplementation 'ch.qos.logback:logback-classic:1.5.8'
+
+    // -------------------------------
+    // OTRAS DEPENDENCIAS
+    // -------------------------------
+    implementation 'org.json:json:20240303'
+    implementation 'commons-httpclient:commons-httpclient:3.1'
+    implementation 'org.apache.poi:poi:5.3.0'
+    implementation 'org.apache.poi:poi-ooxml:5.3.0'
+    implementation 'org.apache.poi:openxml4j:1.0-beta'
+}
+
+/**
+ * TAREA PERSONALIZADA PARA GENERAR TIMESTAMP
+ */
+task generateTimestamp {
+    doLast {
+        def timestamp = new java.text.SimpleDateFormat("yyyy-MM-dd HH-mm-ss")
+                .format(new java.util.Date())
+        println "Timestamp actual: $timestamp"
+        ext.currentTime = timestamp
+    }
+}
+
+/**
+ * ASEGURA QUE EL TIMESTAMP SE GENERE ANTES DE COMPILAR
+ */
+tasks.withType(JavaCompile) {
+    dependsOn generateTimestamp
+}
+
+/**
+ * CONFIGURACIÓN DE TESTS
+ */
+test {
+    // IMPORTANTE:
+    // Se usa JUnit Platform + Vintage para ejecutar JUnit 4 (Serenity)
+    useJUnitPlatform()
+
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams = true
+        exceptionFormat = "full"
+    }
+
+    // Permite pasar propiedades del sistema 
+    systemProperties = System.properties
+}
+
+/**
+ * PERMITE QUE EL BUILD CONTINÚE AUNQUE FALLEN TESTS
+ */
+gradle.startParameter.continueOnFailure = true
