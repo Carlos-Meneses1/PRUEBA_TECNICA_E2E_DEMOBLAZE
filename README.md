@@ -109,7 +109,7 @@ Debe estar instalado y actualizado en el sistema.
 ### Sistema operativo
 
 - Windows 10 / 11
-- Terminal: PowerShell o terminal integrada de VS Code
+- Terminal: Terminal integrada de VS Code o CMD
 
 ---
 
@@ -128,10 +128,18 @@ cd PRUEBA_TECNICA_E2E_DEMOBLAZE
 
 ### Paso 2: Ejecutar las pruebas (modo visible)
 
-En Windows (PowerShell o Terminal de VS Code), navegar a la ruta de la carpeta donde está el proyecto y ejecutar el siguiente comando:
+En Windows (Terminal de VS Code o  CMD), navegar a la ruta de la carpeta donde está el proyecto y ejecutar el siguiente comando:
+
+**Comando para Terminal Visual Studio Code RECOMENDADO
 
 ```powershell
 .\gradlew --% -Dserenity.headless.mode=false clean test
+```
+
+**Comando para Terminal CMD
+
+```powershell
+.\gradlew -Dserenity.headless.mode=false -- clean test 
 ```
 
 Este comando realiza las siguientes acciones:
