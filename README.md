@@ -135,7 +135,10 @@ En Windows (Terminal de VS Code o  CMD), navegar a la ruta de la carpeta donde e
 ```powershell
 .\gradlew --% -Dserenity.headless.mode=false clean test
 ```
-
+o
+```powershell
+.\gradlew "-Dserenity.headless.mode=false" clean test
+```
 **Comando para Terminal CMD
 
 ```powershell
