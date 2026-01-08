@@ -120,8 +120,11 @@ Debe estar instalado y actualizado en el sistema.
 **Opción 1:** Descarga manual
 - Hacer clic en `<> Code` → Pestaña `Local` → `Download ZIP`
 
-**Opción 2:** Ejecutar con Codespaces
-- Hacer clic en `<> Code` → Pestaña `Codespaces`
+**Opción 2:** Clonar el proyecto 
+```bash
+git clone https://github.com/Carlos-Meneses1/PRUEBA_TECNICA_E2E_DEMOBLAZE.git
+cd PRUEBA_TECNICA_E2E_DEMOBLAZE
+```
 
 ### Paso 2: Ejecutar las pruebas (modo visible)
 
