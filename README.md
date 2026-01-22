@@ -210,6 +210,3 @@ Todos los puntos solicitados fueron implementados y validados correctamente.
 
 ---
 
-## Autor
-Carlos Meneses
-Prueba técnica – Automatización E2E con Serenity BDD
