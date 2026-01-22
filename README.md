@@ -57,7 +57,7 @@ PRUEBA_TECNICA_E2E_DEMOBLAZE
 │   ├── main
 │   │   └── java
 │   │       └── org
-│   │           └── sofka
+│   │           └── empresa
 │   │               ├── page
 │   │               ├── question
 │   │               ├── task
